@@ -145,5 +145,17 @@
 //
 // Restricting Risky APIs
 //
-// TODO
+// Security teams work hard to create and enforce security best practices. One of the best
+// practices is avoiding to use packages or function calls that are known to be insecure.
+// Educating developers is very often not enough and enforcing best bractices needs extra
+// tools.
+//
+// The framework comes with a CLI that enables automatic checks for usage of restricted APIs.
+// Restricted APIs can be defined by security teams and their usage can be tracked across the
+// whole company.
+//
+// The CLI aka Bancheck allows you to run these checks as part of the CI/CD pipeline and prevent
+// potentially vulnerable code from being deployed. The banned APIs can be defined by different
+// security teams and combined into one check.
+// For detailed usage instructions, please see: github.com/google/go-safeweb/cmd/bancheck
 package safehttp
