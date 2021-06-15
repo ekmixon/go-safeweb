@@ -156,6 +156,6 @@
 //
 // The CLI aka Bancheck allows you to run these checks as part of the CI/CD pipeline and prevent
 // potentially vulnerable code from being deployed. The banned APIs can be defined by different
-// security teams and combined into one check.
-// For detailed usage instructions, please see: github.com/google/go-safeweb/cmd/bancheck
+// security teams and combined into one check. For detailed usage instructions, please see:
+// pkg.go.dev/github.com/google/go-safeweb/cmd/bancheck
 package safehttp
