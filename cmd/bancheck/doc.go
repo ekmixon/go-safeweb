@@ -18,49 +18,18 @@
 //
 // Overview
 //
-// Bancheck is a program that implements a static analysis module and lets you run it
-// on go packages of your choice. Under the hood it uses the go/analysis package
-// https://pkg.go.dev/golang.org/x/tools/go/analysis which provides all the tools that
+// Bancheck is a program that allows you to define risky APIs and check for their usage.
+// It can be used as part of the CI/CD pipeline to avoid common pitfalls and prevent
+// potentially vulnerable code from being deployed. Under the hood it uses the go/analysis
+// package https://pkg.go.dev/golang.org/x/tools/go/analysis which provides all the tools that
 // are needed for static code analysis. The tool resolves fully qualified function
-// and import names and checks them against a config file that defines banned tokens.
+// and import names and checks them against a config file that defines risky APIs.
 //
 // Usage
 //
 // Apart from the standard https://pkg.go.dev/golang.org/x/tools/go/analysis#Analyzer flags
 // the command requires a config flag where a list of config files should be provided.
-//
-//  $ ./bancheck
-//  bannedAPI: Checks for usage of banned APIs
-//
-//  Usage: bannedAPI [-flag] [package]
-//
-//  Flags:
-//  -V    print version and exit
-//  -all
-//  		no effect (deprecated)
-//  -c int
-//  		display offending line with this many lines of context (default -1)
-//  -configs string
-// 		Config files with banned APIs separated by a comma
-//  -cpuprofile string
-// 		write CPU profile to this file
-//  -debug string
-// 		debug flags, any subset of "fpstv"
-//  -fix
-// 		apply all suggested fixes
-//  -flags
-//  		print analyzer flags in JSON
-//  -json
-//  		emit JSON output
-//  -memprofile string
-//  		write memory profile to this file
-//  -source
-//  		no effect (deprecated)
-//  -tags string
-// 	 	no effect (deprecated)
-//  -trace string
-//  		write trace log to this file
-//  -v    no effect (deprecated)
+// You can find a sample usage below.
 //
 // Config
 //
@@ -68,30 +37,30 @@
 // and allow a list of packages for which the check should be skipped.
 // The structure of a config can be found in go-safeweb/cmd/bancheck/config/config.go.
 //
-// Note: It is possible to have colliding config files e.g. one config file bans an API
-// but another one exempts it. The tool applies checks from each config file separately
+// Note: It is possible to have colliding config files e.g. one config file bans a usage of
+// an API but another one exempts it. The tool applies checks from each config file separately
 // i.e. one warning will still be returned.
 //
 // Example config:
 //  {
-// 	"functions": [
-// 		{
-// 			"name": "fmt.Printf",
-// 			"msg": "Banned by team A"
-// 		}
-// 	],
-// 	"imports": [
-// 		{
-// 			"name": "fmt",
-// 			"msg": "Banned by team A",
-//			"exemptions": [
-//				{
-//					"justification": "#yolo",
-//					"allowedPkg": "main"
-//				}
-//			]
-// 		}
-// 	]
+// 		"functions": [
+// 			{
+// 				"name": "fmt.Printf",
+// 				"msg": "Banned by team A"
+// 			}
+// 		],
+// 		"imports": [
+// 			{
+// 				"name": "fmt",
+// 				"msg": "Banned by team A",
+//				"exemptions": [
+//					{
+//						"justification": "#yolo",
+//						"allowedPkg": "main"
+//					}
+//				]
+// 			}
+// 		]
 //  }
 //
 // Example
@@ -105,23 +74,23 @@
 //  import "fmt"
 //
 //  func main() {
-//   fmt.Printf("Hello")
+//  	fmt.Printf("Hello")
 //  }
 //
 // config.json
 //  {
-//   "functions": [
-// 	  {
-// 	   "name": "fmt.Printf",
-// 	   "msg": "Banned by team A"
-// 	  }
-// 	 ],
-//   "imports": [
-// 	  {
-// 	   "name": "fmt",
-// 	   "msg": "Banned by team B"
-// 	  }
-// 	 ],
+//  	"functions": [
+// 			{
+// 				"name": "fmt.Printf",
+// 	   			"msg": "Banned by team A"
+// 	  		}
+// 	 	],
+//   	"imports": [
+// 	  		{
+// 	   			"name": "fmt",
+// 	   			"msg": "Banned by team B"
+// 	  		}
+// 	 	],
 //  }
 //
 // CLI usage
